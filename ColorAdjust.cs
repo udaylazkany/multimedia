@@ -165,6 +165,10 @@ namespace project_1
             CvInvoke.CvtColor(ycc, bgr, ColorConversion.YCrCb2Bgr);
             return bgr.ToBitmap();
         }
+
+        // ============================
+        // 6) تعديل CMY
+        // ============================
         public Bitmap AdjustCMYK(Bitmap img, int addC, int addM, int addY, int addK)
         {
             Bitmap output = new Bitmap(img.Width, img.Height);

@@ -40,11 +40,13 @@
             lABToolStripMenuItem = new ToolStripMenuItem();
             yCBCRToolStripMenuItem = new ToolStripMenuItem();
             Editpicture = new ToolStripMenuItem();
+            editToolStripMenuItem = new ToolStripMenuItem();
             resetColorToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
+            saveToolStripMenuItem = new ToolStripMenuItem();
             trackBar1 = new TrackBar();
             comboChannels = new ComboBox();
-            saveToolStripMenuItem = new ToolStripMenuItem();
+            viewSystemColorToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
@@ -126,10 +128,17 @@
             // 
             // Editpicture
             // 
+            Editpicture.DropDownItems.AddRange(new ToolStripItem[] { editToolStripMenuItem, viewSystemColorToolStripMenuItem });
             Editpicture.Name = "Editpicture";
             Editpicture.Size = new Size(79, 20);
             Editpicture.Text = "Edit picture";
-            Editpicture.Click += Editpicture_Click;
+            // 
+            // editToolStripMenuItem
+            // 
+            editToolStripMenuItem.Name = "editToolStripMenuItem";
+            editToolStripMenuItem.Size = new Size(180, 22);
+            editToolStripMenuItem.Text = "Edit";
+            editToolStripMenuItem.Click += editToolStripMenuItem_Click;
             // 
             // resetColorToolStripMenuItem
             // 
@@ -144,6 +153,13 @@
             aboutToolStripMenuItem.Size = new Size(50, 20);
             aboutToolStripMenuItem.Text = "about";
             aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
+            // 
+            // saveToolStripMenuItem
+            // 
+            saveToolStripMenuItem.Name = "saveToolStripMenuItem";
+            saveToolStripMenuItem.Size = new Size(42, 20);
+            saveToolStripMenuItem.Text = "save";
+            saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // trackBar1
             // 
@@ -165,12 +181,12 @@
             comboChannels.TabIndex = 3;
             comboChannels.SelectedIndexChanged += comboChannels_SelectedIndexChanged;
             // 
-            // saveToolStripMenuItem
+            // viewSystemColorToolStripMenuItem
             // 
-            saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(42, 20);
-            saveToolStripMenuItem.Text = "save";
-            saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
+            viewSystemColorToolStripMenuItem.Name = "viewSystemColorToolStripMenuItem";
+            viewSystemColorToolStripMenuItem.Size = new Size(180, 22);
+            viewSystemColorToolStripMenuItem.Text = "View System Color";
+            viewSystemColorToolStripMenuItem.Click += viewSystemColorToolStripMenuItem_Click;
             // 
             // Form1
             // 
@@ -210,5 +226,7 @@
         private ToolStripMenuItem resetColorToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
         private ToolStripMenuItem saveToolStripMenuItem;
+        private ToolStripMenuItem editToolStripMenuItem;
+        private ToolStripMenuItem viewSystemColorToolStripMenuItem;
     }
 }
