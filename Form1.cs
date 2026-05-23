@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using static System.Net.WebRequestMethods;
 
 namespace project_1
 {
@@ -13,6 +14,7 @@ namespace project_1
         ColorAdjuster adjust = new ColorAdjuster();
         ColorSystemShapes shapes = new ColorSystemShapes();
 
+        private Label labelColorInfo;
 
         // ========== متغيرات الفورم ==========
         Bitmap newOriginal;
@@ -36,15 +38,51 @@ namespace project_1
         int c = 0, m = 0, yk = 0, k = 0;
 
         bool editPanelVisible = false;
-        bool isSystemViewShown = false;
+      
         Image lastShownImage;
+        bool is3D = false;
+        float rotationX = 0;
+        float rotationY = 0;
+        float zoom = 1.0f;
+        bool dragging = false;
+        Point lastPoint;
+        float zoom2D = 1.0f;
+        int offsetX2D = 0;
+        int offsetY2D = 0;
+        bool isSystemView = false; // true = 2D/3D shapes, false = picture
+
 
         public Form1()
         {
             InitializeComponent();
+            pictureBox3.Visible = false;
+            pictureBox3.Dock = DockStyle.Fill;
+            pictureBox3.BackColor = Color.Black;
+            pictureBox3.SizeMode = PictureBoxSizeMode.Normal;
+            pictureBox3.MouseDown += pictureBox3_MouseDown;
+            pictureBox3.MouseUp += pictureBox3_MouseUp;
+            pictureBox3.MouseMove += pictureBox3_MouseMove;
+            pictureBox3.MouseWheel += pictureBox3_MouseWheel;
+            pictureBox3.Paint += pictureBox3_Paint;
+
 
             trackBar1.Visible = false;
             comboChannels.Visible = false;
+            pictureBox2.Visible = false;
+            pictureBox2.Dock = DockStyle.Fill;
+            pictureBox2.Size = pictureBox1.Size;
+            pictureBox2.Location = pictureBox1.Location;
+            labelColorInfo = new Label();
+            labelColorInfo.Dock = DockStyle.Bottom;
+            labelColorInfo.Height = 80;
+            labelColorInfo.AutoSize = false;
+            labelColorInfo.Font = new Font("Segoe UI", 10);
+            labelColorInfo.BackColor = Color.WhiteSmoke;
+            labelColorInfo.ForeColor = Color.Black;
+            labelColorInfo.TextAlign = ContentAlignment.MiddleLeft;
+            labelColorInfo.Visible = false;
+            this.Controls.Add(labelColorInfo);
+
 
             this.AllowDrop = true;
             this.DragEnter += Form1_DragEnter;
@@ -64,6 +102,7 @@ namespace project_1
             if (img != null)
             {
                 pictureBox1.Image = img;
+                pictureBox2.Image = (Image)img.Clone();
                 newOriginal = new Bitmap(img);
                 editedImage = new Bitmap(img);
             }
@@ -82,6 +121,7 @@ namespace project_1
             {
                 var img = loader.LoadFromPath(files[0]);
                 pictureBox1.Image = img;
+                pictureBox2.Image = (Image)img.Clone();
                 newOriginal = new Bitmap(img);
                 editedImage = new Bitmap(img);
             }
@@ -95,7 +135,10 @@ namespace project_1
         private void rGBToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentSystem = "RGB";
-            isSystemViewShown = false;
+           
+            pictureBox3.Visible = false;
+            pictureBox1.Visible = true;
+            pictureBox2.Visible = false;
             viewSystemColorToolStripMenuItem.Text = "View System Color";
 
             if (rgbEdited != null)
@@ -117,7 +160,10 @@ namespace project_1
         private void cMYToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentSystem = "CMYK";
-            isSystemViewShown = false;
+            
+            pictureBox3.Visible = false;
+            pictureBox1.Visible = true;
+            pictureBox2.Visible = false;
             viewSystemColorToolStripMenuItem.Text = "View System Color";
 
             if (cmykEdited != null)
@@ -139,7 +185,10 @@ namespace project_1
         private void hSVToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentSystem = "HSV";
-            isSystemViewShown = false;
+           
+            pictureBox3.Visible = false;
+            pictureBox1.Visible = true;
+            pictureBox2.Visible = false;
             viewSystemColorToolStripMenuItem.Text = "View System Color";
 
             if (hsvEdited != null)
@@ -161,7 +210,10 @@ namespace project_1
         private void yUVToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentSystem = "YUV";
-            isSystemViewShown = false;
+            
+            pictureBox3.Visible = false;
+            pictureBox1.Visible = true;
+            pictureBox2.Visible = false;
             viewSystemColorToolStripMenuItem.Text = "View System Color";
 
             if (yuvEdited != null)
@@ -183,7 +235,10 @@ namespace project_1
         private void lABToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentSystem = "LAB";
-            isSystemViewShown = false;
+            
+            pictureBox3.Visible = false;
+            pictureBox1.Visible = true;
+            pictureBox2.Visible = false;
             viewSystemColorToolStripMenuItem.Text = "View System Color";
 
             if (labEdited != null)
@@ -204,7 +259,10 @@ namespace project_1
         private void yCBCRToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentSystem = "YCbCr";
-            isSystemViewShown = false;
+            
+            pictureBox3.Visible = false;
+            pictureBox1.Visible = true;
+            pictureBox2.Visible = false;
             viewSystemColorToolStripMenuItem.Text = "View System Color";
 
             if (ycbcrEdited != null)
@@ -439,43 +497,191 @@ namespace project_1
 
         private void viewSystemColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // إذا كنا الآن في وضع "عرض الشكل" ونريد الرجوع للصورة
-            if (isSystemViewShown)
-            {
-                if (lastShownImage != null)
-                    pictureBox1.Image = (Image)lastShownImage.Clone();
 
-                isSystemViewShown = false;
-                viewSystemColorToolStripMenuItem.Text = "View System Color";
-                return;
-            }
-
-            // هنا نحن في وضع الصورة، ونريد الانتقال لعرض الشكل
-            // نحفظ "آخر صورة معروضة" (قد تكون أصلية أو معدّلة)
-            if (pictureBox1.Image != null)
-                lastShownImage = (Image)pictureBox1.Image.Clone();
-            else
-                lastShownImage = null;
-
-            Bitmap bmp = null;
-
-            switch (currentSystem)
-            {
-                case "RGB": bmp = shapes.DrawRGBCube(); break;
-                case "CMYK": bmp = shapes.DrawCMYKCube(); break;
-                case "HSV": bmp = shapes.DrawHSVShape(); break;
-                case "YUV": bmp = shapes.DrawYUVShape(); break;
-                case "LAB": bmp = shapes.DrawLABShape(); break;
-                case "YCbCr": bmp = shapes.DrawYCbCrShape(); break;
-            }
-
-            if (bmp != null)
-            {
-                pictureBox1.Image = bmp;
-                isSystemViewShown = true;
-                viewSystemColorToolStripMenuItem.Text = "View Picture";
-            }
         }
 
+        private void pictureBox2_MouseClick(object sender, MouseEventArgs e)
+        {
+
+            if (pictureBox2.Image == null) return;
+
+            Bitmap bmp = (Bitmap)pictureBox2.Image;
+
+            int x = e.X;
+            int y = e.Y;
+
+            if (x < 0 || y < 0 || x >= bmp.Width || y >= bmp.Height)
+                return;
+
+            Color c = bmp.GetPixel(x, y);
+
+            var hsv = converter.RgbToHsv(c.R, c.G, c.B);
+            var lab = converter.RgbToLab(c.R, c.G, c.B);
+            var yuv = converter.RgbToYuv(c.R, c.G, c.B);
+            var ycbcr = converter.RgbToYCbCr(c.R, c.G, c.B);
+            var cmyk = converter.RgbToCmyk(c.R, c.G, c.B);
+            labelColorInfo.Text =
+    $"X:{x}  Y:{y}\n" +
+    $"RGB: {c.R},{c.G},{c.B}      HSV: {hsv.H:F1},{hsv.S:F2},{hsv.V:F2}\n" +
+    $"LAB: {lab.L:F1},{lab.a:F1},{lab.b:F1}   YUV: {yuv.Y:F1},{yuv.U:F1},{yuv.V:F1}\n" +
+    $"YCbCr: {ycbcr.Y:F1},{ycbcr.Cb:F1},{ycbcr.Cr:F1}   CMYK: {cmyk.C:F2},{cmyk.M:F2},{cmyk.Y:F2},{cmyk.K:F2}";
+
+        }
+
+
+
+
+        private void viewPixelColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pictureBox3.Visible = false;
+            pictureBox2.Visible = !pictureBox2.Visible;
+            labelColorInfo.Visible = pictureBox2.Visible;
+        }
+
+        private void twodViewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            is3D = false;
+             isSystemView = true;
+            pictureBox2.Visible = false;
+            labelColorInfo.Visible = pictureBox2.Visible;
+            viewSystemColorToolStripMenuItem.Text = "View Picture"; 
+            // إخفاء الصورة الأصلية
+            pictureBox1.Visible = false;
+            pictureBox2.Visible = false;
+            pictureBox3.Image = null;
+
+            // إظهار مكان العرض الرئيسي
+            pictureBox3.Visible = true;
+            pictureBox3.BringToFront();
+            offsetX2D = 0;
+            offsetY2D = 0;
+            zoom2D = 1.0f;
+            Bitmap bmp = currentSystem switch
+            {
+                "RGB" => shapes.DrawRGBCube(),
+                "CMYK" => shapes.DrawCMYKCube(),
+                "HSV" => shapes.DrawHSVShape(),
+                "YUV" => shapes.DrawYUVShape(),
+                "LAB" => shapes.DrawLABShape(),
+                "YCbCr" => shapes.DrawYCbCrShape(),
+                _ => null
+            };
+
+            if (bmp != null)
+                pictureBox3.Tag = bmp;
+            pictureBox3.Invalidate();
+        }
+
+        private void threedViewToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            is3D = true;
+            isSystemView = true;
+
+            pictureBox2.Visible = false;
+            labelColorInfo.Visible = pictureBox2.Visible;
+            viewSystemColorToolStripMenuItem.Text = "View Picture"; // ← هون التغيير
+            // إخفاء الصورة الأصلية
+            pictureBox1.Visible = false;
+            pictureBox2.Visible = false;
+
+            // إظهار 3D
+            pictureBox3.Visible = true;
+            pictureBox3.BringToFront();
+            pictureBox3.Focus();
+
+            DrawSystem3D();
+        }
+
+
+        private void pictureBoxSystem(object sender, EventArgs e)
+        {
+
+
+        }
+        private void DrawSystem3D()
+        {
+            Bitmap bmp = currentSystem switch
+            {
+                "RGB" => shapes.DrawRGBCube3D(rotationX, rotationY, zoom),
+                "CMYK" => shapes.DrawCMYK3D(rotationX, rotationY, zoom),
+                "HSV" => shapes.DrawHSV3D(rotationX, rotationY, zoom),
+                "LAB" => shapes.DrawLAB3D(rotationX, rotationY, zoom),
+                "YUV" => shapes.DrawYUV3D(rotationX, rotationY, zoom),
+                "YCbCr" => shapes.DrawYCbCr3D(rotationX, rotationY, zoom),
+                _ => null
+            };
+
+            if (bmp != null)
+                pictureBox3.Image = bmp;
+            pictureBox3.Invalidate();
+
+        }
+
+        private void pictureBox3_MouseDown(object sender, MouseEventArgs e)
+        {
+            // if (!is3D) return;
+
+            dragging = true;
+            lastPoint = e.Location;
+            pictureBox3.Focus();
+        }
+
+        private void pictureBox3_MouseUp(object sender, MouseEventArgs e)
+        {
+            dragging = false;
+        }
+
+        private void pictureBox3_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!dragging) return;
+
+            if (is3D)
+            {
+                rotationX += (e.Y - lastPoint.Y) * 0.5f;
+                rotationY += (e.X - lastPoint.X) * 0.5f;
+                DrawSystem3D();
+            }
+            else
+            {
+                offsetX2D += e.X - lastPoint.X;
+                offsetY2D += e.Y - lastPoint.Y;
+                pictureBox3.Invalidate();
+            }
+            lastPoint = e.Location;
+
+        }
+        private void pictureBox3_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (is3D)
+            {
+                zoom += e.Delta > 0 ? 0.1f : -0.1f;
+                zoom = Math.Clamp(zoom, 0.2f, 5f);
+                DrawSystem3D();
+            }
+            else
+            {
+                zoom2D += e.Delta > 0 ? 0.1f : -0.1f;
+                zoom2D = Math.Clamp(zoom2D, 0.2f, 5f);
+                pictureBox3.Invalidate();
+            }
+
+        }
+        private void pictureBox3_Paint(object sender, PaintEventArgs e)
+        {
+            if (is3D) return; // إذا 3D لا نرسم 2D
+
+            if (pictureBox3.Tag == null) return;
+            Bitmap bmp = (Bitmap)pictureBox3.Tag;
+            // تحريك + تكبير
+            e.Graphics.TranslateTransform(offsetX2D, offsetY2D);
+            e.Graphics.ScaleTransform(zoom2D, zoom2D);
+
+            e.Graphics.DrawImage(bmp, 0, 0);
+        }
+
+        private void convertToToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

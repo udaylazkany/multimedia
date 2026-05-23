@@ -65,6 +65,10 @@
             "MathNet.Numerics": {
               "target": "Package",
               "version": "[5.0.0, )"
+            },
+            "TheSingularityWorkshop.FSM_Bridge.Helix": {
+              "target": "Package",
+              "version": "[0.0.1, )"
             }
           },
           "imports": [
