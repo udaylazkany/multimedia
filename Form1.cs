@@ -42,6 +42,7 @@ namespace project_1
         bool editPanelVisible = false;
 
         Image lastShownImage;
+        bool isUpdatingTrackBar = false;
         bool is3D = false;
         float rotationX = 0;
         float rotationY = 0;
@@ -109,6 +110,13 @@ namespace project_1
                 pictureBox2.Image = (Image)img.Clone();
                 newOriginal = new Bitmap(img);
                 editedImage = new Bitmap(img);
+                currentSystem = "RGB";
+                pictureBox1.Visible = true;
+                pictureBox2.Visible = false;
+                pictureBox3.Visible = false;
+                viewSystemColorToolStripMenuItem.Text = "View System Color (RGB)";
+                SetupChannels("Red", "Green", "Blue");
+
             }
         }
 
@@ -128,6 +136,13 @@ namespace project_1
                 pictureBox2.Image = (Image)img.Clone();
                 newOriginal = new Bitmap(img);
                 editedImage = new Bitmap(img);
+                currentSystem = "RGB";
+                pictureBox1.Visible = true;
+                pictureBox2.Visible = false;
+                pictureBox3.Visible = false;
+                viewSystemColorToolStripMenuItem.Text = "View System Color (RGB)";
+                SetupChannels("Red", "Green", "Blue");
+
             }
         }
 
@@ -138,6 +153,17 @@ namespace project_1
 
         private void rGBToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (loader.OriginalImage == null)
+            {
+                var img = loader.LoadFromDialog(openFileDialog1);
+                if (img != null)
+                {
+                    pictureBox1.Image = img;
+                    pictureBox2.Image = (Image)img.Clone();
+                    newOriginal = new Bitmap(img);
+                    editedImage = new Bitmap(img);
+                }
+            }
             currentSystem = "RGB";
 
             pictureBox3.Visible = false;
@@ -163,6 +189,17 @@ namespace project_1
 
         private void cMYToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (loader.OriginalImage == null)
+            {
+                var img = loader.LoadFromDialog(openFileDialog1);
+                if (img != null)
+                {
+                    pictureBox1.Image = img;
+                    pictureBox2.Image = (Image)img.Clone();
+                    newOriginal = new Bitmap(img);
+                    editedImage = new Bitmap(img);
+                }
+            }
             currentSystem = "CMYK";
 
             pictureBox3.Visible = false;
@@ -188,6 +225,17 @@ namespace project_1
 
         private void hSVToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (loader.OriginalImage == null)
+            {
+                var img = loader.LoadFromDialog(openFileDialog1);
+                if (img != null)
+                {
+                    pictureBox1.Image = img;
+                    pictureBox2.Image = (Image)img.Clone();
+                    newOriginal = new Bitmap(img);
+                    editedImage = new Bitmap(img);
+                }
+            }
             currentSystem = "HSV";
 
             pictureBox3.Visible = false;
@@ -213,6 +261,17 @@ namespace project_1
 
         private void yUVToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (loader.OriginalImage == null)
+            {
+                var img = loader.LoadFromDialog(openFileDialog1);
+                if (img != null)
+                {
+                    pictureBox1.Image = img;
+                    pictureBox2.Image = (Image)img.Clone();
+                    newOriginal = new Bitmap(img);
+                    editedImage = new Bitmap(img);
+                }
+            }
             currentSystem = "YUV";
 
             pictureBox3.Visible = false;
@@ -238,6 +297,17 @@ namespace project_1
 
         private void lABToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (loader.OriginalImage == null)
+            {
+                var img = loader.LoadFromDialog(openFileDialog1);
+                if (img != null)
+                {
+                    pictureBox1.Image = img;
+                    pictureBox2.Image = (Image)img.Clone();
+                    newOriginal = new Bitmap(img);
+                    editedImage = new Bitmap(img);
+                }
+            }
             currentSystem = "LAB";
 
             pictureBox3.Visible = false;
@@ -262,6 +332,17 @@ namespace project_1
 
         private void yCBCRToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (loader.OriginalImage == null)
+            {
+                var img = loader.LoadFromDialog(openFileDialog1);
+                if (img != null)
+                {
+                    pictureBox1.Image = img;
+                    pictureBox2.Image = (Image)img.Clone();
+                    newOriginal = new Bitmap(img);
+                    editedImage = new Bitmap(img);
+                }
+            }
             currentSystem = "YCbCr";
 
             pictureBox3.Visible = false;
@@ -286,45 +367,68 @@ namespace project_1
 
         private void UpdateTrackBarValue()
         {
+            isUpdatingTrackBar = true;
+            if (colorReductionMode)
+            {
+                int originalColors = reducer.CountColors(newOriginal);
+                trackBar1.Minimum = 1;
+                trackBar1.Maximum = originalColors;
+                trackBar1.Value = originalColors;
+            }
+            else
+            {
+           
+                trackBar1.Minimum = -255;   
+                trackBar1.Maximum = 255;
+                trackBar1.Value = 0;
+                
+            }
+            int Safe(int val)
+            {
+                return Math.Max(trackBar1.Minimum, Math.Min(trackBar1.Maximum, val));
+            }
             switch (currentSystem)
             {
                 case "RGB":
-                    if (selectedChannel == "Red") trackBar1.Value = r;
+                    if (selectedChannel == "Red") trackBar1.Value =Safe(r);
                     if (selectedChannel == "Green") trackBar1.Value = g;
                     if (selectedChannel == "Blue") trackBar1.Value = b;
                     break;
 
                 case "CMYK":
-                    if (selectedChannel == "Cyan") trackBar1.Value = c;
+                    if (selectedChannel == "Cyan") trackBar1.Value = Safe(c);
                     if (selectedChannel == "Magenta") trackBar1.Value = m;
                     if (selectedChannel == "Yellow") trackBar1.Value = yk;
                     if (selectedChannel == "Black") trackBar1.Value = k;
                     break;
 
                 case "HSV":
-                    if (selectedChannel == "Hue") trackBar1.Value = h;
+                    if (selectedChannel == "Hue") trackBar1.Value = Safe(h);
                     if (selectedChannel == "Saturation") trackBar1.Value = s;
                     if (selectedChannel == "Value") trackBar1.Value = v;
                     break;
 
                 case "YUV":
-                    if (selectedChannel == "Y") trackBar1.Value = y;
+                    if (selectedChannel == "Y") trackBar1.Value = Safe(y);
                     if (selectedChannel == "U") trackBar1.Value = u;
                     if (selectedChannel == "V") trackBar1.Value = v2;
                     break;
 
                 case "LAB":
-                    if (selectedChannel == "L") trackBar1.Value = L;
+                    if (selectedChannel == "L") trackBar1.Value = Safe(L);
                     if (selectedChannel == "A") trackBar1.Value = A;
                     if (selectedChannel == "B") trackBar1.Value = B;
                     break;
 
                 case "YCbCr":
-                    if (selectedChannel == "Y") trackBar1.Value = y3;
+                    if (selectedChannel == "Y") trackBar1.Value = Safe(y3);
                     if (selectedChannel == "Cb") trackBar1.Value = cb;
                     if (selectedChannel == "Cr") trackBar1.Value = cr;
                     break;
             }
+
+            isUpdatingTrackBar = false;
+
         }
 
         private void SetupChannels(params string[] channels)
@@ -332,9 +436,9 @@ namespace project_1
             comboChannels.Items.Clear();
             comboChannels.Items.AddRange(channels);
             comboChannels.SelectedIndex = 0;
+           
+            
             UpdateTrackBarValue();
-            if (!colorReductionMode)
-                UpdateTrackBarValue();
             newOriginal = new Bitmap(pictureBox1.Image);
             editedImage = new Bitmap(newOriginal);
         }
@@ -356,6 +460,8 @@ namespace project_1
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
+            if (isUpdatingTrackBar) return;
+
             if (newOriginal == null) return;
 
             int v = trackBar1.Value;
@@ -365,8 +471,8 @@ namespace project_1
             // ============================
             if (colorReductionMode)
             {
-                int step = 10; // 🔥 بدك 10-10؟ خليه 10. بدك 100-100؟ خليه 100.
-                int maxColors = trackBar1.Value - (trackBar1.Value % step);
+                int step = 10;
+                int maxColors = v - (v % step);
 
                 editedImage = reducer.ReduceColors(newOriginal, maxColors);
                 pictureBox1.Image = editedImage;
@@ -379,9 +485,8 @@ namespace project_1
                 labelColorInfo.Text = $"Colors: {currentColors}";
                 labelColorInfo.BringToFront();
 
-                return;
+                return; // 🔥 يمنع أي نظام لوني من العمل
             }
-
 
             // ============================
             //   باقي الأنظمة اللونية
@@ -496,7 +601,7 @@ namespace project_1
             }
             trackBar1.Minimum = -255;
             trackBar1.Maximum = 255;
-            trackBar1.Value = 0;
+            
 
             if (comboChannels.Items.Count > 0)
                 comboChannels.SelectedIndex = 0;
@@ -549,7 +654,27 @@ namespace project_1
         // ============================
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {   // إذا كنا في وضع تقليل الألوان → تجاهل Edit
+        {
+            if (loader.OriginalImage == null)
+            {
+                var img = loader.LoadFromDialog(openFileDialog1);
+                if (img != null)
+                {
+                    pictureBox1.Image = img;
+                    pictureBox2.Image = (Image)img.Clone();
+                    newOriginal = new Bitmap(img);
+                    editedImage = new Bitmap(img);
+                }
+            }
+            currentSystem = "RGB";
+            SetupChannels("Red", "Green", "Blue");
+
+            pictureBox3.Visible = false;
+            pictureBox1.Visible = true;
+            pictureBox2.Visible = false;
+            viewSystemColorToolStripMenuItem.Text = "View System Color";
+
+
             if (colorReductionMode)
                 return;
 
@@ -557,11 +682,10 @@ namespace project_1
             trackBar1.Visible = editPanelVisible;
             comboChannels.Visible = editPanelVisible;
 
-            // 🔥 أهم خطوة: لا تغيّر قيمة الـ TrackBar إذا فتحنا Edit
             if (editPanelVisible)
             {
                 int mid = (trackBar1.Minimum + trackBar1.Maximum) / 2;
-                trackBar1.Value = mid;   // 🔥 المؤشر بالنص دائماً
+                trackBar1.Value = mid;  
             }
         }
 
@@ -603,6 +727,25 @@ namespace project_1
 
         private void viewPixelColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            
+            if (loader.OriginalImage == null)
+            {
+                var img = loader.LoadFromDialog(openFileDialog1);
+                if (img != null)
+                {
+                    pictureBox1.Image = img;
+                    pictureBox2.Image = (Image)img.Clone();
+                    newOriginal = new Bitmap(img);
+                    editedImage = new Bitmap(img);
+                }
+            }
+            currentSystem = "RGB";
+            SetupChannels("Red", "Green", "Blue");
+
+            pictureBox3.Visible = false;
+            pictureBox1.Visible = true;
+            pictureBox2.Visible = false;
+
             pictureBox3.Visible = false;
             pictureBox2.Visible = !pictureBox2.Visible;
             labelColorInfo.Visible = pictureBox2.Visible;
@@ -610,6 +753,24 @@ namespace project_1
 
         private void twodViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+            if (loader.OriginalImage == null)
+            {
+                var img = loader.LoadFromDialog(openFileDialog1);
+                if (img != null)
+                {
+                    pictureBox1.Image = img;
+                    pictureBox2.Image = (Image)img.Clone();
+                    newOriginal = new Bitmap(img);
+                    editedImage = new Bitmap(img);
+                }
+            }
+            currentSystem = "RGB";
+            SetupChannels("Red", "Green", "Blue");
+
+            pictureBox3.Visible = false;
+            pictureBox1.Visible = true;
+            pictureBox2.Visible = false;
             is3D = false;
 
             pictureBox2.Visible = false;
@@ -644,6 +805,23 @@ namespace project_1
 
         private void threedViewToolStripMenuItem1_Click(object sender, EventArgs e)
         {
+            if (loader.OriginalImage == null)
+            {
+                var img = loader.LoadFromDialog(openFileDialog1);
+                if (img != null)
+                {
+                    pictureBox1.Image = img;
+                    pictureBox2.Image = (Image)img.Clone();
+                    newOriginal = new Bitmap(img);
+                    editedImage = new Bitmap(img);
+                }
+            }
+            currentSystem = "RGB";
+            SetupChannels("Red", "Green", "Blue");
+
+            pictureBox3.Visible = false;
+            pictureBox1.Visible = true;
+            pictureBox2.Visible = false;
             is3D = true;
             pictureBox2.Visible = false;
             labelColorInfo.Visible = pictureBox2.Visible;
@@ -754,19 +932,44 @@ namespace project_1
 
         private void colorCounterChangeToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (loader.OriginalImage == null)
+            {
+                var img = loader.LoadFromDialog(openFileDialog1);
+                if (img != null)
+                {
+                    pictureBox1.Image = img;
+                    pictureBox2.Image = (Image)img.Clone();
+                    newOriginal = new Bitmap(img);
+                    editedImage = new Bitmap(img);
+                }
+            }
+            currentSystem = "RGB";
+            SetupChannels("Red", "Green", "Blue");
+
             int originalColors = reducer.CountColors(newOriginal);
 
-            trackBar1.Minimum = 0;              // 🔥 مهم جداً
-            trackBar1.Maximum = originalColors; // أكبر عدد ألوان
-            trackBar1.Value = originalColors;   // المؤشر يبدأ من أقصى اليمين
+            trackBar1.Minimum = 1;
+            trackBar1.Maximum = originalColors;
+            trackBar1.Value = originalColors;
 
-            editPanelVisible = !editPanelVisible;
-            trackBar1.Visible = editPanelVisible;
-            comboChannels.Visible = editPanelVisible;
             colorReductionMode = !colorReductionMode;
-
-
             colorCounterChangeToolStripMenuItem.Checked = colorReductionMode;
+
+            // 🔥 إخفاء زر convert to عند الدخول للوضع
+            convertToToolStripMenuItem.Visible = !colorReductionMode;
+
+            // إظهار/إخفاء الـ Panel
+            editPanelVisible = colorReductionMode;
+            trackBar1.Visible = editPanelVisible;
+
+            // إخفاء القنوات أثناء وضع تقليل الألوان
+            comboChannels.Visible = !colorReductionMode;
+
+            // عند الخروج من الوضع نرجع الصورة كما كانت
+            if (!colorReductionMode)
+            {
+                pictureBox1.Image = editedImage;
+            }
         }
 
 

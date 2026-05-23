@@ -45,6 +45,7 @@
             dViewToolStripMenuItem = new ToolStripMenuItem();
             dViewToolStripMenuItem1 = new ToolStripMenuItem();
             viewPixelColorToolStripMenuItem = new ToolStripMenuItem();
+            colorCounterChangeToolStripMenuItem = new ToolStripMenuItem();
             resetColorToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             saveToolStripMenuItem = new ToolStripMenuItem();
@@ -52,7 +53,6 @@
             comboChannels = new ComboBox();
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
-            colorCounterChangeToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
@@ -178,6 +178,13 @@
             viewPixelColorToolStripMenuItem.Text = "view pixel color";
             viewPixelColorToolStripMenuItem.Click += viewPixelColorToolStripMenuItem_Click;
             // 
+            // colorCounterChangeToolStripMenuItem
+            // 
+            colorCounterChangeToolStripMenuItem.Name = "colorCounterChangeToolStripMenuItem";
+            colorCounterChangeToolStripMenuItem.Size = new Size(193, 22);
+            colorCounterChangeToolStripMenuItem.Text = "Color Counter Change";
+            colorCounterChangeToolStripMenuItem.Click += colorCounterChangeToolStripMenuItem_Click;
+            // 
             // resetColorToolStripMenuItem
             // 
             resetColorToolStripMenuItem.Name = "resetColorToolStripMenuItem";
@@ -201,6 +208,7 @@
             // 
             // trackBar1
             // 
+            trackBar1.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             trackBar1.LargeChange = 10;
             trackBar1.Location = new Point(12, 196);
             trackBar1.Maximum = 255;
@@ -212,6 +220,7 @@
             // 
             // comboChannels
             // 
+            comboChannels.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             comboChannels.FormattingEnabled = true;
             comboChannels.Location = new Point(274, 24);
             comboChannels.Name = "comboChannels";
@@ -233,6 +242,7 @@
             // 
             // pictureBox3
             // 
+            pictureBox3.Dock = DockStyle.Fill;
             pictureBox3.Location = new Point(0, 24);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new Size(407, 229);
@@ -243,13 +253,6 @@
             pictureBox3.MouseDown += pictureBox3_MouseDown;
             pictureBox3.MouseMove += pictureBox3_MouseMove;
             pictureBox3.MouseUp += pictureBox3_MouseUp;
-            // 
-            // colorCounterChangeToolStripMenuItem
-            // 
-            colorCounterChangeToolStripMenuItem.Name = "colorCounterChangeToolStripMenuItem";
-            colorCounterChangeToolStripMenuItem.Size = new Size(193, 22);
-            colorCounterChangeToolStripMenuItem.Text = "Color Counter Change";
-            colorCounterChangeToolStripMenuItem.Click += colorCounterChangeToolStripMenuItem_Click;
             // 
             // Form1
             // 

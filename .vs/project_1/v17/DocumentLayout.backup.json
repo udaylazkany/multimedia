@@ -11,16 +11,16 @@
       "RelativeMoniker": "D:0:0:{F595BD4F-E7FD-47AD-8484-C646596C784C}|project_1.csproj|solutionrelative:form1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{F595BD4F-E7FD-47AD-8484-C646596C784C}|project_1.csproj|c:\\users\\asus\\desktop\\4th-years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\imageloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F595BD4F-E7FD-47AD-8484-C646596C784C}|project_1.csproj|solutionrelative:imageloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F595BD4F-E7FD-47AD-8484-C646596C784C}|project_1.csproj|c:\\users\\asus\\desktop\\4th-years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\colorreducer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F595BD4F-E7FD-47AD-8484-C646596C784C}|project_1.csproj|solutionrelative:colorreducer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F595BD4F-E7FD-47AD-8484-C646596C784C}|project_1.csproj|c:\\users\\asus\\desktop\\4th-years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F595BD4F-E7FD-47AD-8484-C646596C784C}|project_1.csproj|solutionrelative:form1.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{F595BD4F-E7FD-47AD-8484-C646596C784C}|project_1.csproj|c:\\users\\asus\\desktop\\4th-years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\imageloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{F595BD4F-E7FD-47AD-8484-C646596C784C}|project_1.csproj|solutionrelative:imageloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{F595BD4F-E7FD-47AD-8484-C646596C784C}|project_1.csproj|c:\\users\\asus\\desktop\\4th-years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\colorsystemshapes.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -62,13 +62,13 @@
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "ColorReducer.cs",
               "DocumentMoniker": "C:\\Users\\asus\\Desktop\\4Th-Years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\ColorReducer.cs",
               "RelativeDocumentMoniker": "ColorReducer.cs",
               "ToolTip": "C:\\Users\\asus\\Desktop\\4Th-Years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\ColorReducer.cs",
               "RelativeToolTip": "ColorReducer.cs",
-              "ViewState": "AgIAAB0AAAAAAAAAAAAcwDMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAB0AAAAAAAAAAAArwCkAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-23T11:18:59.524Z",
               "EditorCaption": ""
@@ -91,21 +91,21 @@
               "Title": "Form1.cs [Design]",
               "DocumentMoniker": "C:\\Users\\asus\\Desktop\\4Th-Years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
-              "ToolTip": "C:\\Users\\asus\\Desktop\\4Th-Years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\Form1.cs [Design]",
-              "RelativeToolTip": "Form1.cs [Design]",
+              "ToolTip": "C:\\Users\\asus\\Desktop\\4Th-Years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\Form1.cs [Design]*",
+              "RelativeToolTip": "Form1.cs [Design]*",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-22T05:20:05.742Z",
               "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 3,
               "Title": "Form1.Designer.cs",
               "DocumentMoniker": "C:\\Users\\asus\\Desktop\\4Th-Years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\Form1.Designer.cs",
               "RelativeDocumentMoniker": "Form1.Designer.cs",
               "ToolTip": "C:\\Users\\asus\\Desktop\\4Th-Years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\Form1.Designer.cs",
               "RelativeToolTip": "Form1.Designer.cs",
-              "ViewState": "AgIAABUBAAAAAAAAAAAswCEBAAAiAAAAAAAAAA==",
+              "ViewState": "AgIAABgBAAAAAAAAAAAswBoBAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-22T05:13:31.001Z",
               "EditorCaption": ""
@@ -136,7 +136,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "ImageLoader.cs",
               "DocumentMoniker": "C:\\Users\\asus\\Desktop\\4Th-Years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\ImageLoader.cs",
               "RelativeDocumentMoniker": "ImageLoader.cs",
@@ -144,8 +144,7 @@
               "RelativeToolTip": "ImageLoader.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAA0wBYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-22T05:05:34.739Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-22T05:05:34.739Z"
             },
             {
               "$type": "Document",
@@ -201,9 +200,9 @@
               "Title": "Form1.cs",
               "DocumentMoniker": "C:\\Users\\asus\\Desktop\\4Th-Years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\Form1.cs",
               "RelativeDocumentMoniker": "Form1.cs",
-              "ToolTip": "C:\\Users\\asus\\Desktop\\4Th-Years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\Form1.cs",
-              "RelativeToolTip": "Form1.cs",
-              "ViewState": "AgIAACECAAAAAAAAAAAqwDQCAAANAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\asus\\Desktop\\4Th-Years\\\u0645\u0644\u062A\u064A\u0645\u064A\u062F\u064A\u0627\\\u062A\u0637\u0628\u064A\u0642 \u0639\u0645\u0644\u064A\\\u0645\u0634\u0631\u0648\u0639_1\\project_1\\Form1.cs*",
+              "RelativeToolTip": "Form1.cs*",
+              "ViewState": "AgIAALUCAAAAAAAAAAAiwNwCAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-08T14:20:31.781Z",
               "EditorCaption": ""
