@@ -13,6 +13,8 @@ namespace project_1
         ColorConverter converter = new ColorConverter();
         ColorAdjuster adjust = new ColorAdjuster();
         ColorSystemShapes shapes = new ColorSystemShapes();
+        ColorReducer reducer = new ColorReducer();
+
 
         private Label labelColorInfo;
 
@@ -38,7 +40,7 @@ namespace project_1
         int c = 0, m = 0, yk = 0, k = 0;
 
         bool editPanelVisible = false;
-      
+
         Image lastShownImage;
         bool is3D = false;
         float rotationX = 0;
@@ -49,7 +51,9 @@ namespace project_1
         float zoom2D = 1.0f;
         int offsetX2D = 0;
         int offsetY2D = 0;
-        bool isSystemView = false; // true = 2D/3D shapes, false = picture
+
+        bool colorReductionMode = false;
+
 
 
         public Form1()
@@ -135,7 +139,7 @@ namespace project_1
         private void rGBToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentSystem = "RGB";
-           
+
             pictureBox3.Visible = false;
             pictureBox1.Visible = true;
             pictureBox2.Visible = false;
@@ -160,7 +164,7 @@ namespace project_1
         private void cMYToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentSystem = "CMYK";
-            
+
             pictureBox3.Visible = false;
             pictureBox1.Visible = true;
             pictureBox2.Visible = false;
@@ -185,7 +189,7 @@ namespace project_1
         private void hSVToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentSystem = "HSV";
-           
+
             pictureBox3.Visible = false;
             pictureBox1.Visible = true;
             pictureBox2.Visible = false;
@@ -210,7 +214,7 @@ namespace project_1
         private void yUVToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentSystem = "YUV";
-            
+
             pictureBox3.Visible = false;
             pictureBox1.Visible = true;
             pictureBox2.Visible = false;
@@ -235,7 +239,7 @@ namespace project_1
         private void lABToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentSystem = "LAB";
-            
+
             pictureBox3.Visible = false;
             pictureBox1.Visible = true;
             pictureBox2.Visible = false;
@@ -259,7 +263,7 @@ namespace project_1
         private void yCBCRToolStripMenuItem_Click(object sender, EventArgs e)
         {
             currentSystem = "YCbCr";
-            
+
             pictureBox3.Visible = false;
             pictureBox1.Visible = true;
             pictureBox2.Visible = false;
@@ -329,7 +333,8 @@ namespace project_1
             comboChannels.Items.AddRange(channels);
             comboChannels.SelectedIndex = 0;
             UpdateTrackBarValue();
-
+            if (!colorReductionMode)
+                UpdateTrackBarValue();
             newOriginal = new Bitmap(pictureBox1.Image);
             editedImage = new Bitmap(newOriginal);
         }
@@ -355,59 +360,97 @@ namespace project_1
 
             int v = trackBar1.Value;
 
+            // ============================
+            //   وضع تقليل الألوان فقط
+            // ============================
+            if (colorReductionMode)
+            {
+                int step = 10; // 🔥 بدك 10-10؟ خليه 10. بدك 100-100؟ خليه 100.
+                int maxColors = trackBar1.Value - (trackBar1.Value % step);
+
+                editedImage = reducer.ReduceColors(newOriginal, maxColors);
+                pictureBox1.Image = editedImage;
+
+                int currentColors = reducer.CountColors((Bitmap)editedImage);
+
+                labelColorInfo.Visible = true;
+                labelColorInfo.Height = 20;
+                labelColorInfo.TextAlign = ContentAlignment.MiddleCenter;
+                labelColorInfo.Text = $"Colors: {currentColors}";
+                labelColorInfo.BringToFront();
+
+                return;
+            }
+
+
+            // ============================
+            //   باقي الأنظمة اللونية
+            // ============================
             switch (currentSystem)
             {
                 case "RGB":
-                    if (selectedChannel == "Red") r = v;
-                    if (selectedChannel == "Green") g = v;
-                    if (selectedChannel == "Blue") b = v;
-
+                    switch (selectedChannel)
+                    {
+                        case "Red": r = v; break;
+                        case "Green": g = v; break;
+                        case "Blue": b = v; break;
+                    }
                     editedImage = adjust.AdjustRGB(newOriginal, r, g, b);
                     rgbEdited = (Bitmap)editedImage.Clone();
                     break;
 
                 case "CMYK":
-                    if (selectedChannel == "Cyan") c = v;
-                    if (selectedChannel == "Magenta") m = v;
-                    if (selectedChannel == "Yellow") yk = v;
-                    if (selectedChannel == "Black") k = v;
-
+                    switch (selectedChannel)
+                    {
+                        case "Cyan": c = v; break;
+                        case "Magenta": m = v; break;
+                        case "Yellow": yk = v; break;
+                        case "Black": k = v; break;
+                    }
                     editedImage = adjust.AdjustCMYK(newOriginal, c, m, yk, k);
                     cmykEdited = (Bitmap)editedImage.Clone();
                     break;
 
                 case "HSV":
-                    if (selectedChannel == "Hue") h = v;
-                    if (selectedChannel == "Saturation") s = v;
-                    if (selectedChannel == "Value") this.v = v;
-
+                    switch (selectedChannel)
+                    {
+                        case "Hue": h = v; break;
+                        case "Saturation": s = v; break;
+                        case "Value": this.v = v; break;
+                    }
                     editedImage = adjust.AdjustHSV(newOriginal, h, s, this.v);
                     hsvEdited = (Bitmap)editedImage.Clone();
                     break;
 
                 case "YUV":
-                    if (selectedChannel == "Y") y = v;
-                    if (selectedChannel == "U") u = v;
-                    if (selectedChannel == "V") v2 = v;
-
+                    switch (selectedChannel)
+                    {
+                        case "Y": y = v; break;
+                        case "U": u = v; break;
+                        case "V": v2 = v; break;
+                    }
                     editedImage = adjust.AdjustYUV(newOriginal, y, u, v2);
                     yuvEdited = (Bitmap)editedImage.Clone();
                     break;
 
                 case "LAB":
-                    if (selectedChannel == "L") L = v;
-                    if (selectedChannel == "A") A = v;
-                    if (selectedChannel == "B") B = v;
-
+                    switch (selectedChannel)
+                    {
+                        case "L": L = v; break;
+                        case "A": A = v; break;
+                        case "B": B = v; break;
+                    }
                     editedImage = adjust.AdjustLAB(newOriginal, L, A, B);
                     labEdited = (Bitmap)editedImage.Clone();
                     break;
 
                 case "YCbCr":
-                    if (selectedChannel == "Y") y3 = v;
-                    if (selectedChannel == "Cb") cb = v;
-                    if (selectedChannel == "Cr") cr = v;
-
+                    switch (selectedChannel)
+                    {
+                        case "Y": y3 = v; break;
+                        case "Cb": cb = v; break;
+                        case "Cr": cr = v; break;
+                    }
                     editedImage = adjust.AdjustYCbCr(newOriginal, y3, cb, cr);
                     ycbcrEdited = (Bitmap)editedImage.Clone();
                     break;
@@ -429,6 +472,7 @@ namespace project_1
             newOriginal = new Bitmap(pictureBox1.Image);
             editedImage = new Bitmap(newOriginal);
 
+            // 🔥 إعادة ضبط قيم الأنظمة اللونية
             r = g = b = 0;
             h = s = v = 0;
             y = u = v2 = 0;
@@ -436,6 +480,22 @@ namespace project_1
             y3 = cb = cr = 0;
             c = m = yk = k = 0;
 
+            // 🔥 إذا كنا في وضع تقليل الألوان
+            if (colorReductionMode)
+            {
+                int originalColors = reducer.CountColors(newOriginal);
+
+                trackBar1.Minimum = 0;
+                trackBar1.Maximum = originalColors;
+                trackBar1.Value = originalColors;   // 🔥 المؤشر يرجع لأقصى اليمين
+
+                labelColorInfo.Text = $"Colors: {originalColors}";
+                labelColorInfo.Visible = true;
+                labelColorInfo.BringToFront();
+                return;
+            }
+            trackBar1.Minimum = -255;
+            trackBar1.Maximum = 255;
             trackBar1.Value = 0;
 
             if (comboChannels.Items.Count > 0)
@@ -489,10 +549,20 @@ namespace project_1
         // ============================
 
         private void editToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        {   // إذا كنا في وضع تقليل الألوان → تجاهل Edit
+            if (colorReductionMode)
+                return;
+
             editPanelVisible = !editPanelVisible;
             trackBar1.Visible = editPanelVisible;
             comboChannels.Visible = editPanelVisible;
+
+            // 🔥 أهم خطوة: لا تغيّر قيمة الـ TrackBar إذا فتحنا Edit
+            if (editPanelVisible)
+            {
+                int mid = (trackBar1.Minimum + trackBar1.Maximum) / 2;
+                trackBar1.Value = mid;   // 🔥 المؤشر بالنص دائماً
+            }
         }
 
         private void viewSystemColorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -541,10 +611,10 @@ namespace project_1
         private void twodViewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             is3D = false;
-             isSystemView = true;
+
             pictureBox2.Visible = false;
             labelColorInfo.Visible = pictureBox2.Visible;
-            viewSystemColorToolStripMenuItem.Text = "View Picture"; 
+            viewSystemColorToolStripMenuItem.Text = "View Picture";
             // إخفاء الصورة الأصلية
             pictureBox1.Visible = false;
             pictureBox2.Visible = false;
@@ -575,8 +645,6 @@ namespace project_1
         private void threedViewToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             is3D = true;
-            isSystemView = true;
-
             pictureBox2.Visible = false;
             labelColorInfo.Visible = pictureBox2.Visible;
             viewSystemColorToolStripMenuItem.Text = "View Picture"; // ← هون التغيير
@@ -683,5 +751,24 @@ namespace project_1
         {
 
         }
+
+        private void colorCounterChangeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int originalColors = reducer.CountColors(newOriginal);
+
+            trackBar1.Minimum = 0;              // 🔥 مهم جداً
+            trackBar1.Maximum = originalColors; // أكبر عدد ألوان
+            trackBar1.Value = originalColors;   // المؤشر يبدأ من أقصى اليمين
+
+            editPanelVisible = !editPanelVisible;
+            trackBar1.Visible = editPanelVisible;
+            comboChannels.Visible = editPanelVisible;
+            colorReductionMode = !colorReductionMode;
+
+
+            colorCounterChangeToolStripMenuItem.Checked = colorReductionMode;
+        }
+
+
     }
 }

@@ -52,6 +52,7 @@
             comboChannels = new ComboBox();
             pictureBox2 = new PictureBox();
             pictureBox3 = new PictureBox();
+            colorCounterChangeToolStripMenuItem = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
@@ -95,48 +96,48 @@
             // rGBToolStripMenuItem
             // 
             rGBToolStripMenuItem.Name = "rGBToolStripMenuItem";
-            rGBToolStripMenuItem.Size = new Size(180, 22);
+            rGBToolStripMenuItem.Size = new Size(111, 22);
             rGBToolStripMenuItem.Text = "RGB";
             rGBToolStripMenuItem.Click += rGBToolStripMenuItem_Click;
             // 
             // cMYToolStripMenuItem
             // 
             cMYToolStripMenuItem.Name = "cMYToolStripMenuItem";
-            cMYToolStripMenuItem.Size = new Size(180, 22);
+            cMYToolStripMenuItem.Size = new Size(111, 22);
             cMYToolStripMenuItem.Text = "CMYk";
             cMYToolStripMenuItem.Click += cMYToolStripMenuItem_Click;
             // 
             // hSVToolStripMenuItem
             // 
             hSVToolStripMenuItem.Name = "hSVToolStripMenuItem";
-            hSVToolStripMenuItem.Size = new Size(180, 22);
+            hSVToolStripMenuItem.Size = new Size(111, 22);
             hSVToolStripMenuItem.Text = "HSV";
             hSVToolStripMenuItem.Click += hSVToolStripMenuItem_Click;
             // 
             // yUVToolStripMenuItem
             // 
             yUVToolStripMenuItem.Name = "yUVToolStripMenuItem";
-            yUVToolStripMenuItem.Size = new Size(180, 22);
+            yUVToolStripMenuItem.Size = new Size(111, 22);
             yUVToolStripMenuItem.Text = "YUV";
             yUVToolStripMenuItem.Click += yUVToolStripMenuItem_Click;
             // 
             // lABToolStripMenuItem
             // 
             lABToolStripMenuItem.Name = "lABToolStripMenuItem";
-            lABToolStripMenuItem.Size = new Size(180, 22);
+            lABToolStripMenuItem.Size = new Size(111, 22);
             lABToolStripMenuItem.Text = "LAB";
             lABToolStripMenuItem.Click += lABToolStripMenuItem_Click;
             // 
             // yCBCRToolStripMenuItem
             // 
             yCBCRToolStripMenuItem.Name = "yCBCRToolStripMenuItem";
-            yCBCRToolStripMenuItem.Size = new Size(180, 22);
+            yCBCRToolStripMenuItem.Size = new Size(111, 22);
             yCBCRToolStripMenuItem.Text = "YCBCR";
             yCBCRToolStripMenuItem.Click += yCBCRToolStripMenuItem_Click;
             // 
             // Editpicture
             // 
-            Editpicture.DropDownItems.AddRange(new ToolStripItem[] { editToolStripMenuItem, viewSystemColorToolStripMenuItem, viewPixelColorToolStripMenuItem });
+            Editpicture.DropDownItems.AddRange(new ToolStripItem[] { editToolStripMenuItem, viewSystemColorToolStripMenuItem, viewPixelColorToolStripMenuItem, colorCounterChangeToolStripMenuItem });
             Editpicture.Name = "Editpicture";
             Editpicture.Size = new Size(79, 20);
             Editpicture.Text = "Edit picture";
@@ -144,7 +145,7 @@
             // editToolStripMenuItem
             // 
             editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new Size(180, 22);
+            editToolStripMenuItem.Size = new Size(193, 22);
             editToolStripMenuItem.Text = "Edit";
             editToolStripMenuItem.Click += editToolStripMenuItem_Click;
             // 
@@ -152,28 +153,28 @@
             // 
             viewSystemColorToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { dViewToolStripMenuItem, dViewToolStripMenuItem1 });
             viewSystemColorToolStripMenuItem.Name = "viewSystemColorToolStripMenuItem";
-            viewSystemColorToolStripMenuItem.Size = new Size(180, 22);
+            viewSystemColorToolStripMenuItem.Size = new Size(193, 22);
             viewSystemColorToolStripMenuItem.Text = "View System Color";
             viewSystemColorToolStripMenuItem.Click += viewSystemColorToolStripMenuItem_Click;
             // 
             // dViewToolStripMenuItem
             // 
             dViewToolStripMenuItem.Name = "dViewToolStripMenuItem";
-            dViewToolStripMenuItem.Size = new Size(180, 22);
+            dViewToolStripMenuItem.Size = new Size(116, 22);
             dViewToolStripMenuItem.Text = "2D View";
             dViewToolStripMenuItem.Click += twodViewToolStripMenuItem_Click;
             // 
             // dViewToolStripMenuItem1
             // 
             dViewToolStripMenuItem1.Name = "dViewToolStripMenuItem1";
-            dViewToolStripMenuItem1.Size = new Size(180, 22);
+            dViewToolStripMenuItem1.Size = new Size(116, 22);
             dViewToolStripMenuItem1.Text = "3D View";
             dViewToolStripMenuItem1.Click += threedViewToolStripMenuItem1_Click;
             // 
             // viewPixelColorToolStripMenuItem
             // 
             viewPixelColorToolStripMenuItem.Name = "viewPixelColorToolStripMenuItem";
-            viewPixelColorToolStripMenuItem.Size = new Size(180, 22);
+            viewPixelColorToolStripMenuItem.Size = new Size(193, 22);
             viewPixelColorToolStripMenuItem.Text = "view pixel color";
             viewPixelColorToolStripMenuItem.Click += viewPixelColorToolStripMenuItem_Click;
             // 
@@ -243,6 +244,13 @@
             pictureBox3.MouseMove += pictureBox3_MouseMove;
             pictureBox3.MouseUp += pictureBox3_MouseUp;
             // 
+            // colorCounterChangeToolStripMenuItem
+            // 
+            colorCounterChangeToolStripMenuItem.Name = "colorCounterChangeToolStripMenuItem";
+            colorCounterChangeToolStripMenuItem.Size = new Size(193, 22);
+            colorCounterChangeToolStripMenuItem.Text = "Color Counter Change";
+            colorCounterChangeToolStripMenuItem.Click += colorCounterChangeToolStripMenuItem_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -292,5 +300,6 @@
         private ToolStripMenuItem dViewToolStripMenuItem;
         private ToolStripMenuItem dViewToolStripMenuItem1;
         private PictureBox pictureBox3;
+        private ToolStripMenuItem colorCounterChangeToolStripMenuItem;
     }
 }
